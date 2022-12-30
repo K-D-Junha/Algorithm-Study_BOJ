@@ -37,22 +37,25 @@ public class Main {
 		
 		cache.get(0).add(nums.get(0).get(0));
 		for(int i=1;i<N;i++) {
-			cache.get(i).add(cache.get(i-1).get(0) + nums.get(i).get(0));
+			ArrayList<Integer> alist = cache.get(i);
+			ArrayList<Integer> uplist = cache.get(i-1);
+			alist.add(uplist.get(0) + nums.get(i).get(0));
 			for(int j=1;j<i;j++) {
-				int up_left = cache.get(i-1).get(j-1);
-				int up_right = cache.get(i-1).get(j);
+				int up_left = uplist.get(j-1);
+				int up_right = uplist.get(j);
 				if(up_left>up_right) {
-					cache.get(i).add(up_left + nums.get(i).get(j));
+					alist.add(up_left + nums.get(i).get(j));
 				} else {
-					cache.get(i).add(up_right + nums.get(i).get(j));
+					alist.add(up_right + nums.get(i).get(j));
 				}
 			}
-			cache.get(i).add(cache.get(i-1).get(i-1) + nums.get(i).get(i));
+			alist.add(uplist.get(i-1) + nums.get(i).get(i));
 		}
 		
 		int max = -1;
+		ArrayList<Integer> alist = cache.get(N-1);
 		for(int i=0;i<N;i++) {
-			int num = cache.get(N-1).get(i);
+			int num = alist.get(i);
 			if(max < num)
 				max = num;
 		}
